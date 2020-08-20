@@ -28,15 +28,14 @@ public class Demo {
         List<MealWithExceed> mealsWithExceeded = getFilteredWithExceeded(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsWithExceeded.forEach(System.out::println);
         System.out.println("==========================");
-       // System.out.println(getFilteredWithExceededByCycle(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
+        // System.out.println(getFilteredWithExceededByCycle(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
     }
 
     private static List<MealWithExceed> getFilteredWithExceeded(List<Meal> meals, LocalTime startTime, LocalTime endTime, int i) {
 
-
-        /** groupingBy => return list*/
+        /* groupingBy => return list*/
         // alt ctrl V => create var
-        /** Map < day , summ of calories of 1 day> </>*/
+        /* Map < day , summ of calories of 1 day> </>*/
         // groupping  by Date to callory (callories summing on 1 day 24 hours)
         Map<LocalDate, Integer> caloriesPerDaysMap = meals.stream().collect(Collectors.groupingBy(
                 meal -> meal.getDateTime().toLocalDate(),
@@ -44,12 +43,12 @@ public class Demo {
 
         // MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed) {
         List<MealWithExceed> resultList =
-        meals.stream()
-                .filter(um -> TimeUtil.isBetween(um.getDateTime().toLocalTime(), startTime, endTime))
-                .map(um ->  new MealWithExceed(um.getDateTime(), um.getDescription(), um.getCalories(),
-                        // boolean exceed if more than 2000 cal per day : true
-                        caloriesPerDaysMap.get(um.getDateTime().toLocalDate()) > 2000))
-                .collect(Collectors.toList());
-        return resultList ;
+                meals.stream()
+                        .filter(um -> TimeUtil.isBetween(um.getDateTime().toLocalTime(), startTime, endTime))
+                        .map(um -> new MealWithExceed(um.getDateTime(), um.getDescription(), um.getCalories(),
+                                // boolean exceed if more than 2000 cal per day : true
+                                caloriesPerDaysMap.get(um.getDateTime().toLocalDate()) > 2000))
+                        .collect(Collectors.toList());
+        return resultList;
     }
 }
